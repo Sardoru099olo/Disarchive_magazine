@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Disarchive | Deira International School</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #14206b; --deep: #0b1240; --red: #e8384f; --orange: #f5a623; --green: #2fa36b;
+    --paper: #fff; --tint: #f4f6fb; --line: #e2e6f2; --ink: #1c2033; --muted: #555b74;
+    --head: "Space Grotesk", "Segoe UI", sans-serif;
+    --body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: var(--body); color: var(--ink); background: var(--tint); line-height: 1.6; font-size: 1.05rem; }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+  /* Hero */
+  header { position: relative; background: var(--deep); color: #fff; overflow: hidden; padding: 56px 20px 64px; text-align: center; }
+  #net { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-in { position: relative; max-width: 760px; margin: 0 auto; }
+  .school { color: #b9c1f0; font-size: .95rem; }
+  h1 { font-family: var(--head); font-weight: 700; font-size: clamp(2.8rem, 9vw, 5rem); line-height: 1.05; letter-spacing: -.02em; margin: 6px 0 18px; }
+  h1 span { color: var(--orange); }
+  .term { display: inline-block; text-align: left; font: .9rem var(--mono); color: #cfd6ff; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.18); border-radius: 8px; padding: 8px 14px; max-width: 100%; }
+  .term i { color: var(--green); font-style: normal; }
+  .caret { display: inline-block; width: 8px; height: 1em; background: var(--orange); vertical-align: -2px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Nav */
+  nav { background: var(--paper); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
+  nav ul { list-style: none; padding: 0 12px; display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
+  nav button { font: 600 1rem var(--body); color: var(--muted); background: none; border: 0; padding: 14px 18px; cursor: pointer; border-bottom: 3px solid transparent; transition: color .15s; }
+  nav button:hover { color: var(--navy); }
+  nav button[aria-pressed="true"] { color: var(--navy); border-bottom-color: var(--red); }
+
+  /* Layout */
+  main { max-width: 1080px; margin: 0 auto; padding: 32px 20px 56px; display: grid; grid-template-columns: 1fr 300px; gap: 32px; }
+  @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+
+  .tag { display: inline-block; font-size: .8rem; font-weight: 600; padding: 1px 10px; border-radius: 4px; color: #fff; }
+  .News { background: var(--navy); } .Sports { background: var(--red); }
+  .Arts { background: var(--orange); color: var(--ink); } .Clubs { background: var(--green); }
+
+  .lead { background: var(--paper); border: 1px solid var(--line); border-left: 6px solid var(--navy); border-radius: 10px; padding: 28px; margin-bottom: 24px; }
+  .lead h2 { font-family: var(--head); font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.2; letter-spacing: -.01em; margin: 10px 0; color: var(--navy); }
+  .lead p { color: var(--muted); max-width: 62ch; }
+  .byline { font-size: .875rem; color: var(--muted); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+  article.story { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+  article.story[data-cat="News"] { border-top: 4px solid var(--navy); }
+  article.story[data-cat="Sports"] { border-top: 4px solid var(--red); }
+  article.story[data-cat="Arts"] { border-top: 4px solid var(--orange); }
+  article.story[data-cat="Clubs"] { border-top: 4px solid var(--green); }
+  article.story h3 { font-family: var(--head); font-size: 1.15rem; line-height: 1.3; margin: 10px 0 6px; }
+  article.story p { font-size: .975rem; color: var(--muted); margin-bottom: 8px; }
+  .grid.swap article { animation: in .3s ease both; }
+  @keyframes in { from { opacity: 0; transform: translateY(6px); } }
+  .empty { display: none; color: var(--muted); padding: 24px 0; }
+
+  /* Sidebar */
+  aside section { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px; margin-bottom: 18px; }
+  aside h2 { font-family: var(--head); font-size: 1.1rem; color: var(--navy); margin-bottom: 10px; }
+  aside ul { list-style: none; padding: 0; }
+  aside li { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .975rem; }
+  aside li:last-child { border: 0; }
+  aside li b { display: inline-block; width: 2.6em; color: var(--red); }
+  form { display: grid; gap: 8px; }
+  input, button.submit { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid #c9cfe6; }
+  button.submit { background: var(--navy); color: #fff; border-color: var(--navy); font-weight: 600; cursor: pointer; }
+  button.submit:hover { background: var(--deep); }
+  #thanks { display: none; color: #1e7a4f; font-weight: 600; }
+
+  footer { background: var(--deep); color: #b9c1f0; text-align: center; padding: 22px; font-size: .9rem; }
+
+  /* Nav auth */
+  nav { display: flex; align-items: center; flex-wrap: wrap; }
+  nav ul { flex: 1; }
+  .auth { display: flex; align-items: center; gap: 8px; padding: 6px 16px; margin-left: auto; font-size: .95rem; }
+  .auth .btn { font: 600 .95rem var(--body); padding: 7px 14px; border-radius: 8px; cursor: pointer; border: 1px solid var(--navy); background: none; color: var(--navy); }
+  .auth .btn.solid { background: var(--navy); color: #fff; }
+  .auth .btn:hover { background: var(--deep); color: #fff; }
+  @media (max-width: 700px) { .auth { width: 100%; justify-content: center; border-top: 1px solid var(--line); } }
+
+  /* Subjects */
+  .subjects { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; }
+  .subjects h2, .trend h2 { font-family: var(--head); font-size: 1.1rem; color: var(--navy); margin-bottom: 10px; }
+  .sgroup { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; align-items: start; padding: 8px 0; border-top: 1px solid var(--line); }
+  .sgroup:first-of-type { border-top: 0; }
+  .sgroup h3 { font-size: .95rem; color: var(--muted); font-weight: 600; padding-top: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font: 600 .95rem var(--body); padding: 5px 14px; border-radius: 99px; border: 1px solid #c9cfe6; background: var(--paper); color: var(--ink); cursor: pointer; }
+  .chip small { color: var(--muted); font-weight: 400; margin-left: 4px; }
+  .chip:hover { border-color: var(--navy); }
+  .chip[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .chip[aria-pressed="true"] small { color: #c9cff5; }
+  @media (max-width: 520px) { .sgroup { grid-template-columns: 1fr; } .sgroup h3 { padding: 0; } }
+  .subj { font-size: .8rem; color: var(--muted); margin-left: 8px; }
+
+  /* Trending */
+  .trend ol { list-style: none; padding: 0; counter-reset: t; }
+  .trend li { counter-increment: t; display: grid; grid-template-columns: 1.6em 1fr; gap: 4px; }
+  .trend li::before { content: counter(t); font: 700 1.1rem var(--head); color: var(--red); }
+  .trend li span { font-size: .8rem; color: var(--muted); display: block; }
+
+  /* Dialog */
+  dialog { border: 0; border-radius: 12px; padding: 0; width: min(420px, calc(100% - 32px)); box-shadow: 0 20px 60px rgba(11,18,64,.35); color: var(--ink); }
+  dialog::backdrop { background: rgba(11,18,64,.6); }
+  .dhead { display: flex; align-items: center; border-bottom: 1px solid var(--line); }
+  .dhead [role="tab"] { flex: 1; font: 600 1rem var(--body); padding: 16px; background: none; border: 0; border-bottom: 3px solid transparent; color: var(--muted); cursor: pointer; }
+  .dhead [aria-selected="true"] { color: var(--navy); border-bottom-color: var(--red); }
+  .dhead .x { flex: 0 0 auto; font-size: 1.4rem; line-height: 1; padding: 10px 16px; background: none; border: 0; cursor: pointer; color: var(--muted); }
+  dialog form { padding: 22px; }
+  dialog label { font-size: .9rem; font-weight: 600; display: grid; gap: 4px; }
+  dialog select { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid #c9cfe6; background: #fff; }
+  .err { color: #b3202f; font-size: .9rem; min-height: 1.3em; }
+  .hint { font-size: .85rem; color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) { .caret, .grid.swap article { animation: none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <p class="school">Deira International School, Festival City</p>
+    <h1>Dis<span>archive</span></h1>
+    <div class="term" aria-label="Issue of 28 September 2026"><i>$</i> <span id="typed"></span><span class="caret"></span></div>
+  </div>
+</header>
+
+<nav aria-label="Sections">
+  <ul id="filters">
+    <li><button aria-pressed="true" data-filter="All">All</button></li>
+    <li><button aria-pressed="false" data-filter="News">News</button></li>
+    <li><button aria-pressed="false" data-filter="Sports">Sports</button></li>
+    <li><button aria-pressed="false" data-filter="Arts">Arts</button></li>
+    <li><button aria-pressed="false" data-filter="Clubs">Clubs</button></li>
+  </ul>
+  <div class="auth" id="auth"></div>
+</nav>
+
+<main>
+  <div>
+    <section class="lead" aria-label="Top story">
+      <span class="tag News">News</span>
+      <h2>Student Council announces new garden project for the courtyard</h2>
+      <p>Students from every year group will help plant herbs and flowers this term, with a launch day planned for next month.</p>
+      <p class="byline">By the Disarchive team · 28 September 2026</p>
+    </section>
+
+    <section class="subjects" aria-labelledby="subj-h">
+      <h2 id="subj-h">Subjects</h2>
+      <div id="subjects"></div>
+    </section>
+
+    <div class="grid" id="stories"></div>
+    <p class="empty" id="empty">No stories in this section yet.</p>
+  </div>
+
+  <aside>
+    <section class="trend">
+      <h2>Trending</h2>
+      <ol id="trending"></ol>
+    </section>
+    <section>
+      <h2>This week</h2>
+      <ul>
+        <li><b>Mon</b> Assembly, Year 7–9</li>
+        <li><b>Wed</b> Football trials</li>
+        <li><b>Thu</b> Art club exhibition</li>
+        <li><b>Fri</b> Spelling bee finals</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Send us a story</h2>
+      <form id="tipForm">
+        <input type="text" placeholder="Your name" required aria-label="Your name">
+        <input type="text" placeholder="Story idea" required aria-label="Story idea">
+        <button class="submit" type="submit">Send idea</button>
+        <p id="thanks" role="status">Thanks! The editors will read it.</p>
+      </form>
+    </section>
+  </aside>
+</main>
+
+<dialog id="authDlg" aria-label="Account">
+  <div class="dhead" role="tablist">
+    <button role="tab" id="tab-in" aria-selected="true" aria-controls="inForm">Sign in</button>
+    <button role="tab" id="tab-up" aria-selected="false" aria-controls="upForm">Sign up</button>
+    <button class="x" id="dClose" aria-label="Close">&times;</button>
+  </div>
+  <form id="inForm" role="tabpanel" aria-labelledby="tab-in">
+    <label>Email <input type="email" name="email" autocomplete="email" required></label>
+    <label>Password <input type="password" name="pw" autocomplete="current-password" required></label>
+    <p class="err" role="alert"></p>
+    <button class="submit" type="submit">Sign in</button>
+    <p class="hint">New here? <a href="#" data-go="up"><u>Create an account</u></a></p>
+  </form>
+  <form id="upForm" role="tabpanel" aria-labelledby="tab-up" hidden>
+    <label>Full name <input type="text" name="name" autocomplete="name" required></label>
+    <label>School email <input type="email" name="email" autocomplete="email" required></label>
+    <label>Year group
+      <select name="year" required>
+        <option value="">Choose year</option>
+        <option>Year 7</option><option>Year 8</option><option>Year 9</option><option>Year 10</option><option>Year 11</option><option>Year 12</option><option>Year 13</option>
+      </select>
+    </label>
+    <label>Password <input type="password" name="pw" autocomplete="new-password" minlength="8" required></label>
+    <label>Confirm password <input type="password" name="pw2" autocomplete="new-password" required></label>
+    <p class="err" role="alert"></p>
+    <button class="submit" type="submit">Create account</button>
+    <p class="hint">Already have an account? <a href="#" data-go="in"><u>Sign in</u></a></p>
+  </form>
+</dialog>
+
+<footer>Disarchive · Written by students of Deira International School<br><span style="opacity:.75">Created by Sardor</span></footer>
+
+<script>
+  // Edit this list to add or change stories
+  const stories = [
+    { cat: "Sports", views: 412, title: "U14 football team wins the regional cup", text: "A last-minute goal sealed a 2–1 victory on Saturday.", by: "Omar K." },
+    { cat: "Arts", views: 268, title: "Year 10 drama group rehearses 'The Lion King Jr.'", text: "Auditions are done and the set is being painted this week.", by: "Sara M." },
+    { cat: "Clubs", subject: "Computing", views: 355, title: "Robotics club builds its first line-following robot", text: "Members tested the robot on a track made from black tape.", by: "Ali R." },
+    { cat: "News", views: 190, title: "Library extends opening hours before exams", text: "Students can now study until 5 pm from Monday to Thursday.", by: "Maya T." },
+    { cat: "Arts", views: 231, title: "Student photos to be shown in the main hall", text: "Ten photographs about 'My Dubai' were chosen by the judges.", by: "Lina H." },
+    { cat: "Sports", views: 327, title: "Swimming gala: new school record in 50m freestyle", text: "Yusuf from Year 9 finished in a personal best time.", by: "Zayed A." },
+    { cat: "Clubs", subject: "Spanish", views: 298, title: "Spanish club hosts a tapas and trivia afternoon", text: "Students practised ordering food and quizzed each other on Spanish-speaking countries.", by: "Noor S." },
+    { cat: "News", subject: "French", views: 176, title: "Year 8 French classes write postcards to a partner school", text: "Each student wrote five sentences about life in Dubai.", by: "Hana B." },
+    { cat: "News", subject: "Math", views: 384, title: "Year 11 team qualifies for the maths challenge final", text: "Four students solved 18 of 20 problems in the regional round.", by: "Karim D." },
+    { cat: "Clubs", subject: "Science", views: 209, title: "Year 9 science fair: building water filters", text: "Groups compared sand, charcoal and cloth to see which cleaned water best.", by: "Dana F." },
+    { cat: "Arts", subject: "Arabic", views: 143, title: "Arabic calligraphy workshop opens to all year groups", text: "Students learned the basic strokes of the Thuluth script.", by: "Rami J." }
+  ];
+  const groups = {
+    Languages: ["Spanish", "French", "Arabic", "English"],
+    STEM: ["Math", "Science", "Computing"],
+    Humanities: ["History", "Geography"]
+  };
+  let cat = "All", subject = null;
+
+  const list = document.getElementById("stories");
+  const empty = document.getElementById("empty");
+
+  function render() {
+    const shown = stories.filter(s => (cat === "All" || s.cat === cat) && (!subject || s.subject === subject));
+    list.classList.remove("swap"); void list.offsetWidth; list.classList.add("swap");
+    list.innerHTML = shown.map(s => `
+      <article class="story" data-cat="${s.cat}">
+        <span class="tag ${s.cat}">${s.cat}</span>
+        <h3>${s.title}</h3>
+        <p>${s.text}</p>
+        <span class="byline">By ${s.by}${s.subject ? `<span class="subj">${s.subject}</span>` : ""}</span>
+      </article>`).join("");
+    empty.textContent = subject ? `No ${subject} stories yet. Send us one!` : "No stories in this section yet.";
+    empty.style.display = shown.length ? "none" : "block";
+  }
+
+  function renderSubjects() {
+    document.getElementById("subjects").innerHTML = Object.entries(groups).map(([g, subs]) => `
+      <div class="sgroup"><h3>${g}</h3><div class="chips">${subs.map(n => `
+        <button class="chip" data-subject="${n}" aria-pressed="${subject === n}">${n}<small>${stories.filter(s => s.subject === n).length}</small></button>`).join("")}
+      </div></div>`).join("");
+  }
+
+  document.getElementById("subjects").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    subject = subject === b.dataset.subject ? null : b.dataset.subject;
+    renderSubjects(); render();
+  });
+
+  document.getElementById("trending").innerHTML = [...stories].sort((a, b) => b.views - a.views).slice(0, 5)
+    .map(s => `<li><div>${s.title}<span>${s.views} reads · ${s.cat}</span></div></li>`).join("");
+
+  document.getElementById("filters").addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    document.querySelectorAll("#filters button").forEach(b => b.setAttribute("aria-pressed", b === btn));
+    cat = btn.dataset.filter; render();
+  });
+
+  document.getElementById("tipForm").addEventListener("submit", e => {
+    e.preventDefault();
+    e.target.reset();
+    document.getElementById("thanks").style.display = "block";
+  });
+
+  renderSubjects(); render();
+
+  /* Sign in / sign up (front-end demo: nothing is sent or saved except the display name) */
+  const dlg = document.getElementById("authDlg"), authBox = document.getElementById("auth");
+  const forms = { in: document.getElementById("inForm"), up: document.getElementById("upForm") };
+  let user = null;
+  try { user = localStorage.getItem("disarchive-user"); } catch (e) {}
+
+  function showTab(t) {
+    ["in", "up"].forEach(k => {
+      forms[k].hidden = k !== t;
+      document.getElementById("tab-" + k).setAttribute("aria-selected", k === t);
+      forms[k].querySelector(".err").textContent = "";
+    });
+  }
+  function openAuth(t) { showTab(t); dlg.showModal(); forms[t].querySelector("input").focus(); }
+  function drawAuth() {
+    authBox.innerHTML = user
+      ? `<span>Hi, ${user.replace(/[<>&"]/g, "")}</span><button class="btn" id="out">Sign out</button>`
+      : `<button class="btn" id="bin">Sign in</button><button class="btn solid" id="bup">Sign up</button>`;
+  }
+  authBox.addEventListener("click", e => {
+    if (e.target.id === "bin") openAuth("in");
+    if (e.target.id === "bup") openAuth("up");
+    if (e.target.id === "out") { user = null; try { localStorage.removeItem("disarchive-user"); } catch (x) {} drawAuth(); }
+  });
+  document.getElementById("tab-in").onclick = () => showTab("in");
+  document.getElementById("tab-up").onclick = () => showTab("up");
+  document.getElementById("dClose").onclick = () => dlg.close();
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+  dlg.querySelectorAll("[data-go]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); showTab(a.dataset.go); }));
+
+  function finish(name) {
+    user = name; try { localStorage.setItem("disarchive-user", name); } catch (e) {}
+    drawAuth(); dlg.close();
+  }
+  forms.in.addEventListener("submit", e => {
+    e.preventDefault();
+    const f = new FormData(forms.in);
+    finish(String(f.get("email")).split("@")[0]);
+    forms.in.reset();
+  });
+  forms.up.addEventListener("submit", e => {
+    e.preventDefault();
+    const f = new FormData(forms.up), err = forms.up.querySelector(".err");
+    if (f.get("pw") !== f.get("pw2")) { err.textContent = "Passwords don't match. Type the same password in both boxes."; return; }
+    finish(String(f.get("name")).split(" ")[0]);
+    forms.up.reset();
+  });
+  drawAuth();
+
+  /* Hero: terminal typing + graph that runs a breadth-first search */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cmd = "disarchive --issue 2026-09-28";
+  const typed = document.getElementById("typed");
+  if (reduce) typed.textContent = cmd;
+  else { let i = 0; const t = setInterval(() => { typed.textContent = cmd.slice(0, ++i); if (i >= cmd.length) clearInterval(t); }, 55); }
+
+  const cv = document.getElementById("net"), cx = cv.getContext("2d");
+  const cols = ["#e8384f", "#f5a623", "#2fa36b", "#8f9cf0"];
+  let W, H, nodes, edges, order, step = 0, last = 0;
+
+  function build() {
+    const r = cv.getBoundingClientRect(), d = devicePixelRatio || 1;
+    W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0);
+    const n = Math.max(14, Math.min(34, Math.round(W / 40)));
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    nodes = Array.from({ length: n }, () => ({ x: rnd() * W, y: rnd() * H, c: cols[(rnd() * 4) | 0], t: -99 }));
+    edges = nodes.map(() => []);
+    nodes.forEach((a, i) => {
+      nodes.map((b, j) => [j, Math.hypot(a.x - b.x, a.y - b.y)]).filter(p => p[0] !== i)
+        .sort((p, q) => p[1] - q[1]).slice(0, 2)
+        .forEach(([j]) => { if (!edges[i].includes(j)) { edges[i].push(j); edges[j].push(i); } });
+    });
+    bfs((rnd() * n) | 0);
+  }
+  function bfs(s) {
+    const seen = new Set([s]), q = [s]; order = [];
+    while (q.length) { const u = q.shift(); order.push(u); edges[u].forEach(v => { if (!seen.has(v)) { seen.add(v); q.push(v); } }); }
+    step = 0;
+  }
+  function draw(now) {
+    cx.clearRect(0, 0, W, H);
+    cx.lineWidth = 1; cx.strokeStyle = "rgba(185,193,240,.18)";
+    nodes.forEach((a, i) => edges[i].forEach(j => { if (j > i) { cx.beginPath(); cx.moveTo(a.x, a.y); cx.lineTo(nodes[j].x, nodes[j].y); cx.stroke(); } }));
+    nodes.forEach(n => {
+      const age = (now - n.t) / 1400, glow = age >= 0 && age < 1 ? 1 - age : 0;
+      cx.globalAlpha = .55 + glow * .45; cx.fillStyle = n.c;
+      cx.beginPath(); cx.arc(n.x, n.y, 3 + glow * 6, 0, 6.283); cx.fill();
+    });
+    cx.globalAlpha = 1;
+  }
+  function loop(now) {
+    if (now - last > 320 && !reduce) {
+      last = now;
+      if (step < order.length) nodes[order[step++]].t = now;
+      else if (now - nodes[order[order.length - 1]].t > 1500) bfs((Math.random() * nodes.length) | 0);
+    }
+    draw(now);
+    if (!reduce) requestAnimationFrame(loop);
+  }
+  addEventListener("resize", () => { build(); if (reduce) draw(0); });
+  build(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>
